@@ -68,13 +68,17 @@ export class DashboardComponent implements OnInit {
   }
 
 
-
   updateKpis(sales$: Observable<Sale[]>) {
-    sales$.subscribe(sales => {
-      this.kpis.salesCount = sales.length;
-      this.kpis.totalSales = sales.reduce((sum, sale) => sum + sale.Total, 0);
-      this.kpis.averageTicket = this.kpis.salesCount > 0 ? this.kpis.totalSales / this.kpis.salesCount : 0;
-    });
+      sales$.subscribe(sales => {
+          // Asegúrate de que este filtro también está aquí
+          const validSales = sales.filter(sale => sale.fecha);
+
+          const totalSales = validSales.reduce((sum, sale) => sum + sale.Total, 0);
+          const salesCount = validSales.length;
+          const averageTicket = salesCount > 0 ? totalSales / salesCount : 0;
+
+          this.kpis = { totalSales, salesCount, averageTicket };
+      });
   }
 
   prepareChartData(sales$: Observable<Sale[]>) {
