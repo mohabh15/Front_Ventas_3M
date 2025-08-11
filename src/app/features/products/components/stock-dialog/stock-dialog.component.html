@@ -1,0 +1,35 @@
+<h1 mat-dialog-title>{{ isEditMode ? 'Editar' : 'Añadir' }} Item al Stock</h1>
+
+<div mat-dialog-content>
+  <form [formGroup]="stockForm" class="stock-form">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre del Producto</mat-label>
+      <input matInput formControlName="name" placeholder="Ej. Camiseta Azul">
+      <mat-error *ngIf="stockForm.get('name')?.hasError('required')">El nombre es obligatorio.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Cantidad</mat-label>
+      <input matInput type="number" formControlName="quantity" placeholder="Ej. 50">
+      <mat-error *ngIf="stockForm.get('quantity')?.hasError('required')">La cantidad es obligatoria.</mat-error>
+      <mat-error *ngIf="stockForm.get('quantity')?.hasError('min')">La cantidad no puede ser negativa.</mat-error>
+    </mat-form-field>
+    
+    <mat-form-field appearance="outline">
+      <mat-label>Precio</mat-label>
+      <input matInput type="number" formControlName="price" placeholder="Ej. 19.99">
+      <span matTextPrefix>€&nbsp;</span>
+      <mat-error *ngIf="stockForm.get('price')?.hasError('required')">El precio es obligatorio.</mat-error>
+      <mat-error *ngIf="stockForm.get('price')?.hasError('min')">El precio no puede ser negativo.</mat-error>
+    </mat-form-field>
+
+  </form>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-raised-button color="primary" [disabled]="stockForm.invalid" (click)="onSave()">
+    {{ isEditMode ? 'Actualizar' : 'Guardar' }}
+  </button>
+</div>

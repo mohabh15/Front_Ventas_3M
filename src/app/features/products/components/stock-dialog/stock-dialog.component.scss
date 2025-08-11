@@ -1,0 +1,10 @@
+.stock-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 16px;
+}
+
+mat-form-field {
+    width: 100%;
+}

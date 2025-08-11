@@ -1,0 +1,93 @@
+<div class="dashboard-container">
+
+
+  <div class="kpi-grid">
+    <mat-card class="kpi-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>monetization_on</mat-icon>
+        <mat-card-title>{{ kpis.totalSales | currency:'EUR':'symbol' }}</mat-card-title>
+        <mat-card-subtitle>Ventas Totales</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+    <mat-card class="kpi-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>receipt_long</mat-icon>
+        <mat-card-title>{{ kpis.salesCount }}</mat-card-title>
+        <mat-card-subtitle>Número de Ventas</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+    <mat-card class="kpi-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>trending_up</mat-icon>
+        <mat-card-title>{{ kpis.averageTicket | currency:'EUR':'symbol' }}</mat-card-title>
+        <mat-card-subtitle>Ticket Promedio</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+  </div>
+
+  <mat-card class="chart-card">
+    <mat-card-header>
+      <mat-card-title>Evolución de Ventas</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ngx-charts-bar-vertical
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="(salesData$ | async) || []"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel">
+      </ngx-charts-bar-vertical>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="cash-card">
+    <mat-card-header>
+      <mat-card-title>Caja y Transferencias</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="cash-content">
+      <div class="user-balances">
+        <h3>Saldos Actuales</h3>
+        <mat-list role="list">
+          <mat-list-item *ngFor="let user of (users$ | async)" role="listitem">
+            <mat-icon matListItemIcon>account_circle</mat-icon>
+            <div matListItemTitle>{{ user.nombre }}</div>
+            <div matListItemLine>{{ user.balance | currency:'EUR' }}</div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+
+      <div class="transfer-form">
+        <h3>Realizar Transferencia</h3>
+        <form [formGroup]="transferForm" (ngSubmit)="onTransfer()">
+          <mat-form-field appearance="outline">
+            <mat-label>Desde</mat-label>
+            <mat-select formControlName="fromUser">
+              <mat-option *ngFor="let user of (users$ | async)" [value]="user.id">{{ user.nombre }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Hacia</mat-label>
+            <mat-select formControlName="toUser">
+              <mat-option *ngFor="let user of (users$ | async)" [value]="user.id">{{ user.nombre }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Cantidad</mat-label>
+            <input matInput type="number" formControlName="amount" placeholder="Ej. 50.00">
+            <span matTextPrefix>€&nbsp;</span>
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" type="submit" [disabled]="transferForm.invalid">Transferir</button>
+        </form>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

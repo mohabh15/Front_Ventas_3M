@@ -1,0 +1,63 @@
+/* Estilos para el contenedor de la barra lateral */
+.sidenav-container {
+  height: 100vh;
+}
+
+/* Estilos de la barra lateral oscura */
+.sidenav {
+  width: 250px;
+  box-shadow: 3px 0 6px rgba(0, 0, 0, 0.24);
+  background-color: #afafaf;
+  
+  .mat-toolbar {
+    background-color: #424242;
+    color: #fff;
+  }
+
+  .app-name {
+    margin-left: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  /* Estilos para la lista de navegación */
+  .mat-nav-list {
+    // Aplicamos el color al contenedor de la lista para asegurar el color blanco
+    color: #ffffff;
+  }
+}
+
+
+/* Estilos de los botones de navegación */
+.sidenav .mat-nav-list a.mat-list-item {
+  // Usamos una selección más específica para anular los estilos por defecto
+  color: #ffffff;
+  
+  .mat-icon, span {
+    color: #fff; // Aseguramos que el texto y los iconos sean blancos
+  }
+
+  // Estilo al pasar el ratón por encima
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Estilo para el botón de la página activa */
+.sidenav .mat-nav-list a.mat-list-item.active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Estilos de la barra superior */
+.mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #f5f5f5; // Barra de herramientas superior en color claro
+  color: #000000;
+  margin-bottom: 10px;
+}
+
+.content {
+  padding: 20px;
+}

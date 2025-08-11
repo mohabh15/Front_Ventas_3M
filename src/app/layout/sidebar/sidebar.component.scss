@@ -1,0 +1,58 @@
+/* Estilos para el contenedor principal de la barra lateral */
+.sidenav-container {
+  height: 100vh;
+}
+
+/* Estilos de la barra lateral (el mat-sidenav) */
+.sidenav {
+  width: 250px;
+  box-shadow: 3px 0 6px rgba(0, 0, 0, 0.24);
+  background-color: #b5b5b5;
+  color: #fff;
+  
+  // Estilos para el componente de la sidebar dentro del sidenav
+  app-sidebar {
+    display: block;
+    height: 100%;
+  }
+  
+  // Estilos para el título de la barra lateral
+  .app-name {
+    margin-left: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+}
+
+
+/* Estilos de los botones de navegación */
+ .mat-nav-list a.mat-list-item {
+  color: #fff;
+  
+  .mat-icon, [matListItemTitle] {
+    color: #f3f3f3 !important;
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Estilo para el botón de la página activa */
+.sidenav .mat-nav-list .mat-list-item.active {
+  background-color: rgb(255, 255, 255);
+}
+
+/* Estilos de la barra superior */
+.mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: black;
+  color: var(--mat-sys-on-primary);
+}
+
+/* Estilos para el contenido principal */
+.content {
+  padding: 20px;
+}
