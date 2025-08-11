@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, doc, getDoc } from 'firebase/firestore';
-import { collectionData } from '@angular/fire/firestore';
-import { getFunctions, httpsCallable } from 'firebase/functions';
+import { Firestore, collection, collectionData } from '@angular/fire/firestore'; // Importa Firestore
+import { Functions, httpsCallable } from '@angular/fire/functions'; // Importa Functions
 import { firebaseConfig } from '../../firebase-config';
-import { Observable, from } from 'rxjs';
+import { Observable } from 'rxjs';
 
-// Importa los nuevos modelos que crearemos en el siguiente paso
+// Importa los modelos
 import { Product } from '../models/product.model';
 import { Sale } from '../models/sale.model';
 import { User } from '../models/user.model';
@@ -15,53 +14,77 @@ import { User } from '../models/user.model';
   providedIn: 'root'
 })
 export class FirebaseService {
-  // Inicializa los servicios de Firebase
-  private app = initializeApp(firebaseConfig);
-  private db = getFirestore(this.app);
-  private functions = getFunctions(this.app, 'europe-west1'); // Asegúrate de que la región sea la correcta
+  // Ahora, en lugar de inicializar los servicios aquí, Angular los inyectará.
+  // Solo necesitas la configuración para la inicialización global en el app.config.ts
 
-  constructor() { }
+  constructor(
+    private readonly firestore: Firestore, // <-- Angular inyecta el servicio de Firestore
+    private readonly functions: Functions  // <-- Angular inyecta el servicio de Functions
+  ) { }
 
 
 
-  // --- MÉTODOS DE LECTURA (siguen leyendo directamente de Firestore) ---
+  // --- MÉTODOS DE LECTURA (ahora usan el servicio inyectado) ---
 
   getProducts(): Observable<Product[]> {
-    const dataCollection = collection(this.db, 'productos');
+    const dataCollection = collection(this.firestore, 'productos');
     return collectionData(dataCollection, { idField: 'id' }) as Observable<Product[]>;
   }
 
   getSales(): Observable<Sale[]> {
-    const dataCollection = collection(this.db, 'ventas');
+    const dataCollection = collection(this.firestore, 'ventas');
     return collectionData(dataCollection, { idField: 'id' }) as Observable<Sale[]>;
   }
 
   getUsers(): Observable<User[]> {
-    const dataCollection = collection(this.db, 'usuarios');
+    const dataCollection = collection(this.firestore, 'usuarios');
     return collectionData(dataCollection, { idField: 'id' }) as Observable<User[]>;
   }
 
 
 
-  // --- MÉTODOS DE ESCRITURA (Ahora llaman a las Firebase Functions) ---
 
-  /**
-   * Llama a la función 'agregar_producto' para crear o actualizar un producto.
-   * @param productData - Datos requeridos por la función de Python.
-   */
-  addProduct(productData: any): Promise<any> {
+
+
+
+
+  // --- MÉTODOS DE ESCRITURA (ya estaban correctos, pero ahora usan el servicio inyectado) ---
+
+  addProduct(productData: {
+    nombre_producto: string,
+    numero_unidades: number,
+    proveedor: string,
+    responsable: string,
+    precio_compra: number
+  }): Promise<any> {
     const addProductFn = httpsCallable(this.functions, 'agregar_producto');
     return addProductFn(productData);
   }
 
-  /**
-   * Llama a la función 'registrar_venta'.
-   * @param saleData - Datos requeridos por la función de Python.
-   */
-  registerSale(saleData: any): Promise<any> {
+  registerSale(saleData: {
+    nombre_producto: string,
+    proveedor: string,
+    nombre_vendedor: string,
+    nombre_cliente: string,
+    cantidad: number,
+    precio_venta_unitario: number
+  }): Promise<any> {
     const registerSaleFn = httpsCallable(this.functions, 'registrar_venta');
     return registerSaleFn(saleData);
   }
+
+  createCollections(): Promise<any> {
+    const createCollectionsFn = httpsCallable(this.functions, 'crear_colecciones');
+    return createCollectionsFn({});
+  }
+
+
+
+
+
+
+
+
 
 
 

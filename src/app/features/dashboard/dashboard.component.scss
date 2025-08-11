@@ -44,3 +44,16 @@
 .mat-form-field {
   width: 100%;
 }
+
+.user-item-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%; // Asegura que el contenedor ocupe todo el espacio disponible
+}
+
+.transfer-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; // Añade 16px de espacio entre cada elemento del formulario
+}

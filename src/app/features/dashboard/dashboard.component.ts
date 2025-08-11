@@ -34,6 +34,7 @@ export class DashboardComponent implements OnInit {
   salesData$: Observable<any[]> = new Observable();
   transferForm: FormGroup;
 
+
   // Opciones de Gráfico
   view: [number, number] = [700, 300];
   showXAxis = true;
@@ -61,10 +62,12 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.users$ = this.firebaseService.getUsers();
 
-    const sales$ = this.firebaseService.getSales();
-    this.updateKpis(sales$);
-    this.prepareChartData(sales$);
+    //const sales$ = this.firebaseService.getSales();
+    //this.updateKpis(sales$);
+    //this.prepareChartData(sales$);
   }
+
+
 
   updateKpis(sales$: Observable<Sale[]>) {
     sales$.subscribe(sales => {

@@ -1,0 +1,16 @@
+{
+  "hosting": {
+    "public": "dist/Front_Ventas_3M",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
