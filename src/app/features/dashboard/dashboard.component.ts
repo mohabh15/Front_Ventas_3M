@@ -62,9 +62,9 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.users$ = this.firebaseService.getUsers();
 
-    //const sales$ = this.firebaseService.getSales();
-    //this.updateKpis(sales$);
-    //this.prepareChartData(sales$);
+    const sales$ = this.firebaseService.getSales();
+    this.updateKpis(sales$);
+    this.prepareChartData(sales$);
   }
 
 
@@ -78,13 +78,19 @@ export class DashboardComponent implements OnInit {
   }
 
   prepareChartData(sales$: Observable<Sale[]>) {
-     this.salesData$ = sales$.pipe(
+    this.salesData$ = sales$.pipe(
       map(sales => {
+        // Filtramos las ventas que no tienen una fecha válida
+        const validSales = sales.filter(sale => sale.fecha);
+        
         const dailySales: {[key: string]: number} = {};
-        sales.forEach(sale => {
+        
+        // Ahora iteramos sobre los datos ya filtrados
+        validSales.forEach(sale => {
           const date = sale.fecha.toDate().toLocaleDateString('es-ES');
           dailySales[date] = (dailySales[date] || 0) + sale.Total;
         });
+
         return Object.keys(dailySales).map(date => ({ name: date, value: dailySales[date] }));
       })
     );
