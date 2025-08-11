@@ -4,7 +4,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Sale } from '../../core/models/sale.model';
 import { FirebaseService } from '../../core/services/firebase.service';
 import { SaleDialogComponent } from './components/sale-dialog/sale-dialog.component';
@@ -26,7 +26,7 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class SalesComponent implements OnInit {
   displayedColumns: string[] = ['productName', 'quantity', 'unitPrice', 'total', 'date', 'actions'];
-  dataSource$: Observable<Sale[]>;
+  dataSource$: Observable<Sale[]> = of([]);
 
   constructor(
     private firebaseService: FirebaseService,

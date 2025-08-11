@@ -95,7 +95,8 @@ export class DashboardComponent implements OnInit {
           dailySales[date] = (dailySales[date] || 0) + sale.Total;
         });
 
-        return Object.keys(dailySales).map(date => ({ name: date, value: dailySales[date] }));
+        
+        return Object.keys(dailySales).length? Object.keys(dailySales).map(date => ({ name: date, value: dailySales[date] })): [{ name: 'Sin datos', value: 0 }];
       })
     );
   }
