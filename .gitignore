@@ -40,3 +40,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Archivo de configuración de Firebase con datos sensibles
+/src/app/firebase-config.ts
